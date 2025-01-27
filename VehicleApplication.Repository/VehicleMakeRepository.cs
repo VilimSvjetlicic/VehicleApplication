@@ -8,7 +8,7 @@ using VehicleApplication.Model;
 
 namespace VehicleApplication.Repository
 {
-    public class VehicleMakeRepository : IVehicleMakeRepository
+    public class VehicleMakeRepository : IGenericRepository<VehicleMake>
     {
         private readonly IGenericRepository<VehicleMake> genericRepository;
 

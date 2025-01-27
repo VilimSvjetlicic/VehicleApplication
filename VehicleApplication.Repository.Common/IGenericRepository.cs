@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace VehicleApplication.Common
 {
-    public interface IGenericRepository<TEntity> where TEntity : class
+    public interface IGenericRepository<T> where T : class
     {
-        Task<IEnumerable<TEntity>> GetAllAsync();
-        Task<TEntity> GetByIdAsync(int id);
-        Task<TEntity> AddAsync(TEntity entity);
-        Task<bool> UpdateAsync(TEntity entity);
+        Task<IEnumerable<T>> GetAllAsync();
+        Task<T> GetByIdAsync(int id);
+        Task<T> AddAsync(T entity);
+        Task<bool> UpdateAsync(T entity);
         Task<bool> DeleteAsync(int id);
     }
 }

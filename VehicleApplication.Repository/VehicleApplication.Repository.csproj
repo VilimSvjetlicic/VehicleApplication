@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\VehicleApplication.Common\VehicleApplication.Common.csproj" />
     <ProjectReference Include="..\VehicleApplication.DAL\VehicleApplication.DAL.csproj" />
     <ProjectReference Include="..\VehicleApplication.Repository.Common\VehicleApplication.Repository.Common.csproj" />

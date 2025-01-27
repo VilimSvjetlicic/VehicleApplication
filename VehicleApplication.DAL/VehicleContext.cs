@@ -22,10 +22,11 @@ namespace VehicleApplication.DAL
         {
             modelBuilder.Entity<VehicleModel>()
                 .HasOne(vm => vm.Make)
-                .WithMany(m => m.Models)
+                .WithMany()
                 .HasForeignKey(vm => vm.MakeId);
 
             base.OnModelCreating(modelBuilder);
         }
     }
 }
+
