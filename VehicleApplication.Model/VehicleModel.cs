@@ -12,6 +12,6 @@ namespace VehicleApplication.Model
         public int MakeId { get; set; }
         public string Name { get; set; }
         public string Abrv { get; set; }
-        public virtual VehicleMake Make { get; set; }
+        public VehicleMake Make { get; set; }
     }
 }

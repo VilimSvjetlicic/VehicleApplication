@@ -23,7 +23,8 @@ namespace VehicleApplication.DAL
             modelBuilder.Entity<VehicleModel>()
                 .HasOne(vm => vm.Make)
                 .WithMany()
-                .HasForeignKey(vm => vm.MakeId);
+                .HasForeignKey(vm => vm.MakeId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             base.OnModelCreating(modelBuilder);
         }
