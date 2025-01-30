@@ -12,6 +12,6 @@ namespace VehicleApplication.Common
         Task<T> GetByIdAsync(int id);
         Task<T> AddAsync(T entity);
         Task<bool> UpdateAsync(T entity);
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }
