@@ -96,7 +96,7 @@ namespace VehicleApplication.Repository
             }
         }
 
-        public virtual Task<int> DeleteAsync<T>(Guid id) where T : class
+        public virtual Task<int> DeleteAsync<T>(int id) where T : class
         {
             var entity = dbContext.Set<T>().Find(id);
             if (entity == null)

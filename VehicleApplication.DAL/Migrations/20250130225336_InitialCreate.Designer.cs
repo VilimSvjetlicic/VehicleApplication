@@ -11,7 +11,7 @@ using VehicleApplication.DAL;
 namespace VehicleApplication.DAL.Migrations
 {
     [DbContext(typeof(VehicleContext))]
-    [Migration("20250129020956_InitialCreate")]
+    [Migration("20250130225336_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

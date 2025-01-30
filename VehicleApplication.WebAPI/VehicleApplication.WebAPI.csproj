@@ -17,7 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\VehicleApplication.Common\VehicleApplication.Common.csproj" />
     <ProjectReference Include="..\VehicleApplication.DAL\VehicleApplication.DAL.csproj" />
+    <ProjectReference Include="..\VehicleApplication.Repository.Common\VehicleApplication.Repository.Common.csproj" />
+    <ProjectReference Include="..\VehicleApplication.Repository\VehicleApplication.Repository.csproj" />
   </ItemGroup>
 
 </Project>

@@ -24,7 +24,7 @@ namespace VehicleApplication.Repository
             return entity;
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(int id)
         {
             await unitOfWork.DeleteAsync<T>(id);
             return true;
@@ -43,6 +43,11 @@ namespace VehicleApplication.Repository
         public async Task<bool> UpdateAsync(T entity)
         {
             await unitOfWork.UpdateAsync(entity);
+            return true;
+        }
+        public async Task<bool> CommitAsync()
+        {
+            await unitOfWork.CommitAsync();
             return true;
         }
     }

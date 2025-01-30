@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using VehicleApplication.Common;
 using VehicleApplication.DAL;
 using VehicleApplication.Model;
+using VehicleApplication.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<VehicleContext>(options =>
@@ -12,31 +14,30 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 
-// Verify database can be created and populated. Will be removed
+// Verify elements in database can be populated and deleted. Will be removed
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<VehicleContext>();
     dbContext.Database.Migrate();
 
-    var makes = new List<VehicleMake>
-        {
-            new VehicleMake { Name = "BMW", Abrv = "BMW" },
-            new VehicleMake { Name = "Ford", Abrv = "FRD" },
-            new VehicleMake { Name = "Volkswagen", Abrv = "VW" }
-        };
+    var unitOfWork = new UnitOfWork(dbContext);
+    var vehicleMakeRepository = new GenericRepository<VehicleMake>(unitOfWork, dbContext);
+    var vehicleModelRepository = new GenericRepository<VehicleModel>(unitOfWork, dbContext);
 
-    dbContext.VehicleMakes.AddRange(makes);
-    dbContext.SaveChanges();
 
-    var models = new List<VehicleModel>
-        {
-            new VehicleModel { Name = "3 Series", Abrv = "M3", MakeId = makes[0].Id },
-            new VehicleModel { Name = "Fiesta", Abrv = "FST", MakeId = makes[1].Id },
-            new VehicleModel { Name = "Golf", Abrv = "GLF", MakeId = makes[2].Id }
-        };
+    var make = new VehicleMake { Name = "Volkswagen", Abrv = "VW" };
+    await vehicleMakeRepository.AddAsync(make);
+    await vehicleMakeRepository.CommitAsync();
 
-    dbContext.VehicleModels.AddRange(models);
-    dbContext.SaveChanges();
+    var model = new VehicleModel { Name = "Polo", Abrv = "PLO", MakeId = make.Id };
+    await vehicleModelRepository.AddAsync(model);
+    await vehicleModelRepository.CommitAsync();
+
+    await vehicleModelRepository.DeleteAsync(model.Id);
+    await vehicleModelRepository.CommitAsync();
+
+    await vehicleMakeRepository.DeleteAsync(make.Id);
+    await vehicleMakeRepository.CommitAsync();
 }
 
 // Configure the HTTP request pipeline.
