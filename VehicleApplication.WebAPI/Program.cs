@@ -3,6 +3,7 @@ using VehicleApplication.Common;
 using VehicleApplication.DAL;
 using VehicleApplication.Model;
 using VehicleApplication.Repository;
+using VehicleApplication.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<VehicleContext>(options =>
@@ -24,20 +25,23 @@ using (var scope = app.Services.CreateScope())
     var vehicleMakeRepository = new GenericRepository<VehicleMake>(unitOfWork, dbContext);
     var vehicleModelRepository = new GenericRepository<VehicleModel>(unitOfWork, dbContext);
 
+    var vehicleMakeService = new VehicleService<VehicleMake>(vehicleMakeRepository);
+    var vehicleModelService = new VehicleService<VehicleModel>(vehicleModelRepository);
+
 
     var make = new VehicleMake { Name = "Volkswagen", Abrv = "VW" };
-    await vehicleMakeRepository.AddAsync(make);
-    await vehicleMakeRepository.CommitAsync();
+    await vehicleMakeService.AddAsync(make);
+    await vehicleMakeService.CommitAsync();
 
     var model = new VehicleModel { Name = "Polo", Abrv = "PLO", MakeId = make.Id };
-    await vehicleModelRepository.AddAsync(model);
-    await vehicleModelRepository.CommitAsync();
+    await vehicleModelService.AddAsync(model);
+    await vehicleModelService.CommitAsync();
 
-    await vehicleModelRepository.DeleteAsync(model.Id);
-    await vehicleModelRepository.CommitAsync();
+    await vehicleModelService.DeleteAsync(model.Id);
+    await vehicleModelService.CommitAsync();
 
-    await vehicleMakeRepository.DeleteAsync(make.Id);
-    await vehicleMakeRepository.CommitAsync();
+    await vehicleMakeService.DeleteAsync(make.Id);
+    await vehicleMakeService.CommitAsync();
 }
 
 // Configure the HTTP request pipeline.

@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 using VehicleApplication.Common;
 using VehicleApplication.DAL;
 using Microsoft.EntityFrameworkCore;
+using VehicleApplication.Model.Common;
 
 
 namespace VehicleApplication.Repository
 {
-    public class GenericRepository<T>(IUnitOfWork unitOfWork, EFCore.DbContext context) : IGenericRepository<T> where T : class
+    public class GenericRepository<T>(IUnitOfWork unitOfWork, EFCore.DbContext context) : IGenericRepository<T> where T : class, IDataModel
     {
         private IUnitOfWork unitOfWork = unitOfWork;
         private EFCore.DbContext context = context;

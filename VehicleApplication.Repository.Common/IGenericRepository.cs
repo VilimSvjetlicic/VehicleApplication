@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VehicleApplication.Model.Common;
 
 namespace VehicleApplication.Common
 {
-    public interface IGenericRepository<T> where T : class
+    public interface IGenericRepository<T> where T : IDataModel
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<T> GetByIdAsync(int id);

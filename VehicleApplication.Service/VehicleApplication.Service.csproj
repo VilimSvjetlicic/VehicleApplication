@@ -10,4 +10,9 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VehicleApplication.Repository.Common\VehicleApplication.Repository.Common.csproj" />
+    <ProjectReference Include="..\VehicleApplication.Service.Common\VehicleApplication.Service.Common.csproj" />
+  </ItemGroup>
+
 </Project>

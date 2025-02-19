@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VehicleApplication.Model.Common;
 
 namespace VehicleApplication.Model
 {
-    public class VehicleModel
+    public class VehicleModel : IDataModel
     {
         public int Id { get; set; }
         public int MakeId { get; set; }
