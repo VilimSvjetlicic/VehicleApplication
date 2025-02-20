@@ -22,8 +22,8 @@ using (var scope = app.Services.CreateScope())
     dbContext.Database.Migrate();
 
     var unitOfWork = new UnitOfWork(dbContext);
-    var vehicleMakeRepository = new GenericRepository<VehicleMake>(unitOfWork, dbContext);
-    var vehicleModelRepository = new GenericRepository<VehicleModel>(unitOfWork, dbContext);
+    var vehicleMakeRepository = new VehicleApplication.Repository.GenericRepository<VehicleMake>(unitOfWork);
+    var vehicleModelRepository = new VehicleApplication.Repository.GenericRepository<VehicleModel>(unitOfWork);
 
     var vehicleMakeService = new VehicleService<VehicleMake>(vehicleMakeRepository);
     var vehicleModelService = new VehicleService<VehicleModel>(vehicleModelRepository);

@@ -1,7 +1,6 @@
 ﻿using EFCore = Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +12,16 @@ using VehicleApplication.Model.Common;
 
 namespace VehicleApplication.Repository
 {
-    public class GenericRepository<T>(IUnitOfWork unitOfWork, EFCore.DbContext context) : IGenericRepository<T> where T : class, IDataModel
+    public class GenericRepository<T> : IGenericRepository<T> where T : class, IDataModel
     {
-        private IUnitOfWork unitOfWork = unitOfWork;
-        private EFCore.DbContext context = context;
-        private EFCore.DbSet<T> dbSet;
+        private readonly IUnitOfWork unitOfWork;
+        private readonly DbSet<T> dbSet;
+
+        public GenericRepository(IUnitOfWork unitOfWork) 
+        {
+            this.unitOfWork = unitOfWork;
+            dbSet = unitOfWork.dbContext.Set<T>();
+        }
 
         public async Task<T> AddAsync(T entity)
         {

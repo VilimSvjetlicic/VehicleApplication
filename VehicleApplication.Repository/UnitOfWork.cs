@@ -13,7 +13,7 @@ namespace VehicleApplication.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        protected DbContext dbContext { get; private set; }
+        public DbContext dbContext { get; }
 
         public UnitOfWork(DbContext dbContext)
         {
