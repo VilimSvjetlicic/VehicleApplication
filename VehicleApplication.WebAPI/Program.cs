@@ -4,6 +4,9 @@ using VehicleApplication.DAL;
 using VehicleApplication.Model;
 using VehicleApplication.Repository;
 using VehicleApplication.Service;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using VehicleApplication.Service.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<VehicleContext>(options =>
@@ -11,6 +14,28 @@ builder.Services.AddDbContext<VehicleContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
+{
+    containerBuilder.Register(c => c.Resolve<VehicleContext>())
+                .As<DbContext>()
+                .InstancePerLifetimeScope();
+
+    containerBuilder.RegisterType<UnitOfWork>()
+                    .As<IUnitOfWork>()
+                    .InstancePerLifetimeScope();
+
+    containerBuilder.RegisterGeneric(typeof(GenericRepository<>))
+                    .As(typeof(IGenericRepository<>))
+                    .InstancePerLifetimeScope();
+
+    containerBuilder.RegisterGeneric(typeof(VehicleService<>))
+                    .As(typeof(IVehicleService<>))
+                    .InstancePerLifetimeScope();
+});
+
 
 var app = builder.Build();
 
@@ -21,13 +46,13 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<VehicleContext>();
     dbContext.Database.Migrate();
 
-    var unitOfWork = new UnitOfWork(dbContext);
-    var vehicleMakeRepository = new VehicleApplication.Repository.GenericRepository<VehicleMake>(unitOfWork);
-    var vehicleModelRepository = new VehicleApplication.Repository.GenericRepository<VehicleModel>(unitOfWork);
+    var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
-    var vehicleMakeService = new VehicleService<VehicleMake>(vehicleMakeRepository);
-    var vehicleModelService = new VehicleService<VehicleModel>(vehicleModelRepository);
+    var vehicleMakeRepository = app.Services.GetRequiredService<IGenericRepository<VehicleMake>>();
+    var vehicleModelRepository = app.Services.GetRequiredService<IGenericRepository<VehicleModel>>();
 
+    var vehicleMakeService = app.Services.GetRequiredService<IVehicleService<VehicleMake>>();
+    var vehicleModelService = app.Services.GetRequiredService<IVehicleService<VehicleModel>>();
 
     var make = new VehicleMake { Name = "Volkswagen", Abrv = "VW" };
     await vehicleMakeService.AddAsync(make);

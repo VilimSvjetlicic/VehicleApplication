@@ -30,7 +30,6 @@ namespace VehicleApplication.Repository.Tests
             repository = new GenericRepository<VehicleModel>(mockUnitOfWork);
         }
 
-        // GetAllAsync
         [Fact]
         public async Task GetAllAsync_returnsAllModels()
         {
@@ -50,7 +49,6 @@ namespace VehicleApplication.Repository.Tests
             result.Should().Contain(v => v.Name == "Focus");
         }
 
-        // GetByIdAsync
         [Fact]
         public async Task GetByIdAsync_ReturnModel()
         {
@@ -73,7 +71,6 @@ namespace VehicleApplication.Repository.Tests
             result.Should().BeNull();
         }
 
-        // AddAsync
         [Fact]
         public async Task AddAsync_ValidModel()
         {
@@ -87,7 +84,6 @@ namespace VehicleApplication.Repository.Tests
             addedModel.Name.Should().Be("Golf");
         }
 
-        // Update
         [Fact]
         public async Task Update_ValidModel()
         {
@@ -105,7 +101,6 @@ namespace VehicleApplication.Repository.Tests
             updatedModel.Name.Should().Be("UpdatedName");
         }
 
-        // Delete
         [Fact]
         public async Task Delete_ValidModel()
         {
