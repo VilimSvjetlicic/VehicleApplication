@@ -12,9 +12,9 @@ namespace VehicleApplication.Service.Common
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<IDataModel> GetByIdAsync(int id);
-        Task AddAsync(T vehicleMake);
-        Task UpdateAsync(T vehicleMake);
-        Task DeleteAsync(int id);
-        Task CommitAsync();
+        Task<IDataModel> AddAsync(T vehicleMake);
+        Task<bool> UpdateAsync(T vehicleMake);
+        Task<bool> DeleteAsync(int id);
+        Task<bool> CommitAsync();
     }
 }

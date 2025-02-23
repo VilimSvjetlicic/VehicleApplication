@@ -28,24 +28,24 @@ namespace VehicleApplication.Service
             return await vehicleRepository.GetByIdAsync(id);
         }
 
-        public async Task AddAsync(T dataModel)
+        public async Task<IDataModel> AddAsync(T dataModel)
         {
-            await vehicleRepository.AddAsync(dataModel);
+            return await vehicleRepository.AddAsync(dataModel);
         }
 
-        public async Task UpdateAsync(T dataModel)
+        public async Task<bool> UpdateAsync(T dataModel)
         {
-            await vehicleRepository.UpdateAsync(dataModel);
+            return await vehicleRepository.UpdateAsync(dataModel);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            await vehicleRepository.DeleteAsync(id);
+            return await vehicleRepository.DeleteAsync(id);
         }
 
-        public async Task CommitAsync()
+        public async Task<bool> CommitAsync()
         {
-            await vehicleRepository.CommitAsync();
+            return await vehicleRepository.CommitAsync();
         }
     }
 }

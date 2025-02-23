@@ -14,6 +14,7 @@ builder.Services.AddDbContext<VehicleContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
