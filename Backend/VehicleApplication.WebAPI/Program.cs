@@ -37,38 +37,18 @@ builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder =>
                     .InstancePerLifetimeScope();
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontendOrigin",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
-
-
-// Verify elements in database can be populated and deleted. Will be removed
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<VehicleContext>();
-    dbContext.Database.Migrate();
-
-    var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-
-    var vehicleMakeRepository = app.Services.GetRequiredService<IGenericRepository<VehicleMake>>();
-    var vehicleModelRepository = app.Services.GetRequiredService<IGenericRepository<VehicleModel>>();
-
-    var vehicleMakeService = app.Services.GetRequiredService<IVehicleService<VehicleMake>>();
-    var vehicleModelService = app.Services.GetRequiredService<IVehicleService<VehicleModel>>();
-
-    var make = new VehicleMake { Name = "Volkswagen", Abrv = "VW" };
-    await vehicleMakeService.AddAsync(make);
-    await vehicleMakeService.CommitAsync();
-
-    var model = new VehicleModel { Name = "Polo", Abrv = "PLO", MakeId = make.Id };
-    await vehicleModelService.AddAsync(model);
-    await vehicleModelService.CommitAsync();
-
-    await vehicleModelService.DeleteAsync(model.Id);
-    await vehicleModelService.CommitAsync();
-
-    await vehicleMakeService.DeleteAsync(make.Id);
-    await vehicleMakeService.CommitAsync();
-}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -88,5 +68,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseCors("AllowFrontendOrigin");
 
 app.Run();
